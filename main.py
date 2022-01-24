@@ -11,6 +11,7 @@ pygame.init()
 pygame.mixer.init()
 size = width, height = ctypes.windll.user32.GetSystemMetrics(0), ctypes.windll.user32.GetSystemMetrics(1)
 screen = pygame.display.set_mode(size, pygame.FULLSCREEN)
+count_t, count_f = 0, 0
 
 
 class Particle(pygame.sprite.Sprite):
@@ -125,6 +126,7 @@ if __name__ == "__main__":
             game_over_animation_count = 0
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
+                print(count_t, count_f)
                 running = False
             if event.type == pygame.MOUSEBUTTONDOWN:
                 if not start_window:
@@ -177,7 +179,6 @@ if __name__ == "__main__":
                 game_over_animation_flag = True
                 game_music.stop()
                 main_music.play()
-                dialog_btn.set_flag()
             if pygame.sprite.spritecollide(hero, monsters, False):
                 hero.set_xp()
                 if time.time() - bit_time >= 1:
@@ -196,14 +197,14 @@ if __name__ == "__main__":
             if time.time() - start_time >= 10:
                 KILLERS.append(Monster(monsters))
                 start_time = time.time()
-        if dialog_btn.return_flag and not game_over_animation_flag and not start_window:
+        if dialog_btn.return_flag() and (not game_over_animation_flag) and (not start_window):
             font = pygame.font.SysFont("Comic Sans MS", 40)
             screen.blit(font.render(f"You kill {return_monster_count()}", False, (0, 0, 225)), (
                 ctypes.windll.user32.GetSystemMetrics(0) // 2 - 90,
                 ctypes.windll.user32.GetSystemMetrics(1) // 2 - 140,))
             screen.blit(font.render(f"Time {round(time.time() - LIVING_TIME)}", False, (0, 0, 225)), (
                 ctypes.windll.user32.GetSystemMetrics(0) // 2 - 90,
-                ctypes.windll.user32.GetSystemMetrics(1) // 2 - 100,))
+                ctypes.windll.user32.GetSystemMetrics(1) // 2 - 100))
         if game_over_animation_flag:
             screen.blit(game_over_animation_img, (game_over_animation_count - 1000, 0))
             if game_over_animation_count < 990:

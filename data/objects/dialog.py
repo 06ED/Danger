@@ -45,6 +45,10 @@ class DialogButtonExit(pygame.sprite.Sprite):  # Класс кнопки зак�
         global show_flag
         show_flag = True
 
+    def set_false_flag(self):
+        global show_flag
+        show_flag = True
+
     def return_flag(self):
         global show_flag
         return show_flag
